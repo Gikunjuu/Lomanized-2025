@@ -121,83 +121,91 @@
     </div>
   </section>
 
-
   <style>
-    .image-gallery {
-      padding: 6rem 0;
-      width: 100%;
-      overflow-x: hidden;
-      background: #111;
-      position: relative;
-    }
-  
+  .image-gallery {
+    padding: 6rem 0;
+    width: 100%;
+    overflow-x: hidden;
+    background: #111; /* Reset to white background */
+    position: relative;
+  }
+
+  .gallery-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8rem;
+    padding: 0 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .gallery-item {
+    width: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+  }
+
+  .image-wrapper {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    transform: translateZ(0);
+  }
+
+  /* Simplify edge effects */
+  .image-wrapper::before,
+  .image-wrapper::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.05), transparent);
+    z-index: 1;
+  }
+
+  .image-wrapper::before {
+    top: 0;
+  }
+
+  .image-wrapper::after {
+    bottom: 0;
+    transform: rotate(180deg);
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transform: translateZ(0);
+    position: relative;
+    z-index: 0;
+  }
+
+  .image-info {
+    margin-top: 1.5rem;
+    text-align: center;
+    opacity: 0.9;
+    font-family: 'Crimson Text', serif; /* More scroll-like font */
+    color: #333; /* Reset to standard text color */
+  }
+
+  @media (max-width: 768px) {
     .gallery-container {
-      display: flex;
-      flex-direction: column;
-      gap: 8rem;
-      padding: 0 2rem;
-      width: 100%;
-      max-width: calc(105vh * 1/1); /* Width based on max height (75vh) and 2:3 ratio */
-      margin: 0 auto;
-      position: relative;
+      padding: 0 1rem;
+      gap: 6rem;
     }
-  
-    .gallery-item {
-      width: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      will-change: transform, opacity;
-      height: 75vh; /* Fixed height at 75% of viewport */
+    
+    .image-gallery {
+      padding: 4rem 0;
     }
-  
-    .image-wrapper {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      border-radius: 12px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      overflow: hidden;
-      background: #fff;
-      transform: translateZ(0);
-    }
-  
-    .image-wrapper img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transform: translateZ(0);
-      z-index: 0;
-    }
-  
-    .image-info {
-      margin-top: 1.5rem;
-      text-align: center;
-      opacity: 0.9;
-      font-family: 'Crimson Text', serif; /* More scroll-like font */
-      color: #333; /* Reset to standard text color */
-    }
-  
-    @media (max-width: 768px) {
-      .gallery-container {
-        padding: 0 1rem;
-        gap: 6rem;
-        max-width: 100%;
-      }
-      
-      .gallery-item {
-        height: auto; /* Remove fixed height on mobile */
-        aspect-ratio: 2/3; /* Maintain aspect ratio on mobile */
-      }
-      
-      .image-gallery {
-        padding: 4rem 0;
-      }
-    }
-    </style>
+  }
+  </style>
 
   <div class="next-category">
     <a href="Portraits.html" class="next-category-link">
@@ -260,7 +268,7 @@
 
   // Create audio element for scroll sound
   const scrollSound = new Audio('https://Assets.mixkit.co/active_storage/sfx/2092/2092.wav');
-  scrollSound.volume = 0.1;
+  scrollSound.volume = 0.1; // Reduce volume
 
   let isPlayingSound = false;
   const playScrollSound = () => {
@@ -270,37 +278,31 @@
       scrollSound.play().then(() => {
         setTimeout(() => {
           isPlayingSound = false;
-        }, 200);
+        }, 200); // Debounce sound
       }).catch(console.error);
     }
   };
 
-  // Initialize Lenis with updated configuration
+  // Initialize Lenis for smooth scrolling
   const lenis = new Lenis({
     duration: 1.8,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     direction: 'vertical',
     gestureDirection: 'vertical',
     smooth: true,
-    mouseMultiplier: 1, // Add mouse multiplier for desktop scrolling
     smoothTouch: false,
-    touchMultiplier: 2,
-    infinite: false
+    touchMultiplier: 2
   });
 
-  // Proper RAF loop
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-  requestAnimationFrame(raf);
-
-  // Connect Lenis to GSAP
+  // Connect Lenis with GSAP
   lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+  });
 
-  // Scroll sound effect with velocity check
-  lenis.on('scroll', ({ velocity }) => {
-    if (Math.abs(velocity) > 0.5) {
+  // Scroll sound effect
+  lenis.on('scroll', () => {
+    if (Math.abs(lenis.velocity) > 0.5) { // Only play sound when scrolling fast enough
       playScrollSound();
     }
   });
@@ -344,6 +346,8 @@
       }
     });
   });
+
+  requestAnimationFrame(() => lenis.raf(1000 / 60));
   </script>
 </body>
 
