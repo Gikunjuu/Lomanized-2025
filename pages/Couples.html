@@ -121,91 +121,83 @@
     </div>
   </section>
 
+
   <style>
-  .image-gallery {
-    padding: 6rem 0;
-    width: 100%;
-    overflow-x: hidden;
-    background: #111; /* Reset to white background */
-    position: relative;
-  }
-
-  .gallery-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8rem;
-    padding: 0 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .gallery-item {
-    width: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    will-change: transform, opacity;
-  }
-
-  .image-wrapper {
-    width: 100%;
-    border-radius: 12px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
-    background: #fff;
-    position: relative;
-    transform: translateZ(0);
-  }
-
-  /* Simplify edge effects */
-  .image-wrapper::before,
-  .image-wrapper::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 40px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.05), transparent);
-    z-index: 1;
-  }
-
-  .image-wrapper::before {
-    top: 0;
-  }
-
-  .image-wrapper::after {
-    bottom: 0;
-    transform: rotate(180deg);
-  }
-
-  .image-wrapper img {
-    width: 100%;
-    height: auto;
-    display: block;
-    transform: translateZ(0);
-    position: relative;
-    z-index: 0;
-  }
-
-  .image-info {
-    margin-top: 1.5rem;
-    text-align: center;
-    opacity: 0.9;
-    font-family: 'Crimson Text', serif; /* More scroll-like font */
-    color: #333; /* Reset to standard text color */
-  }
-
-  @media (max-width: 768px) {
-    .gallery-container {
-      padding: 0 1rem;
-      gap: 6rem;
-    }
-    
     .image-gallery {
-      padding: 4rem 0;
+      padding: 6rem 0;
+      width: 100%;
+      overflow-x: hidden;
+      background: #111;
+      position: relative;
     }
-  }
-  </style>
+  
+    .gallery-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8rem;
+      padding: 0 2rem;
+      width: 100%;
+      max-width: calc(105vh * 1/1); /* Width based on max height (75vh) and 2:3 ratio */
+      margin: 0 auto;
+      position: relative;
+    }
+  
+    .gallery-item {
+      width: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      will-change: transform, opacity;
+      height: 75vh; /* Fixed height at 75% of viewport */
+    }
+  
+    .image-wrapper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      background: #fff;
+      transform: translateZ(0);
+    }
+  
+    .image-wrapper img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: translateZ(0);
+      z-index: 0;
+    }
+  
+    .image-info {
+      margin-top: 1.5rem;
+      text-align: center;
+      opacity: 0.9;
+      font-family: 'Crimson Text', serif; /* More scroll-like font */
+      color: #333; /* Reset to standard text color */
+    }
+  
+    @media (max-width: 768px) {
+      .gallery-container {
+        padding: 0 1rem;
+        gap: 6rem;
+        max-width: 100%;
+      }
+      
+      .gallery-item {
+        height: auto; /* Remove fixed height on mobile */
+        aspect-ratio: 2/3; /* Maintain aspect ratio on mobile */
+      }
+      
+      .image-gallery {
+        padding: 4rem 0;
+      }
+    }
+    </style>
 
   <div class="next-category">
     <a href="Portraits.html" class="next-category-link">
