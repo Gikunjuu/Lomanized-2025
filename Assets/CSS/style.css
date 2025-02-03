@@ -2380,7 +2380,7 @@ textarea.w-input, textarea.w-select {
 .section_livre {
   z-index: 13;
   background-color: var(--fond_black);
-  background-image: linear-gradient(#12100ef0, #12100ef0), url("https://cdn.prod.website-files.com/6694d16edfb46eb7e97649ad/66a2541e4a1d8eb68bb4cdab_Grain.gif");
+  background-image: linear-gradient(#12100ef0, #12100ef0), url("../grain.gif");
   background-position: 0 0, 50%;
   background-size: auto, auto;
   background-attachment: scroll, fixed;
@@ -2764,7 +2764,7 @@ textarea.w-input, textarea.w-select {
   z-index: 12;
   opacity: .06;
   mix-blend-mode: luminosity;
-  background-image: url("https://cdn.prod.website-files.com/6694d16edfb46eb7e97649ad/66a2541e4a1d8eb68bb4cdab_Grain.gif");
+  background-image: url("../grain.gif");
   background-position: 0 0;
   background-size: auto;
   display: block;
