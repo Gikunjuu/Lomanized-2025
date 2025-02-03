@@ -2718,7 +2718,7 @@ textarea.w-input, textarea.w-select {
 
 .wapper_galerie {
   background-color: var(--fond_black);
-  background-image: radial-gradient(circle, #00000080, #000 78%), url("https://cdn.prod.website-files.com/6694d16edfb46eb7e97649ad/66a242ea5f682b49f89ab6ea_GELERIE_1600PX.avif");
+  background-image: radial-gradient(circle, #00000080, #000 78%), url("../loma.avif");
   background-position: 0 0, 50%;
   background-size: auto, 811px;
   background-attachment: scroll, fixed;
@@ -4573,28 +4573,28 @@ textarea.w-input, textarea.w-select {
 
 @font-face {
   font-family: 'Gazzetta Variable';
-  src: url('https://uploads-ssl.webflow.com/6694d16edfb46eb7e97649ad/6698c354cb616fd4854562b4_Gazzetta-Variable.ttf') format('truetype');
+  src: url('../FONTS/6698c354cb616fd4854562b4_Gazzetta-Variable.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Bonvivant';
-  src: url('https://uploads-ssl.webflow.com/6694d16edfb46eb7e97649ad/66acc9785b647a7f6a0c3ed1_BonVivant-Regular.ttf') format('truetype');
+  src: url('../FONTS/66acc9785b647a7f6a0c3ed1_BonVivant-Regular.ttf') format('truetype');
   font-weight: 500;
   font-style: italic;
   font-display: auto;
 }
 @font-face {
   font-family: 'Bonvivant';
-  src: url('https://uploads-ssl.webflow.com/6694d16edfb46eb7e97649ad/66953576419151642d799160_BonVivant-Regular.otf') format('opentype');
+  src: url('../FONTS/66953576419151642d799160_BonVivant-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'Halden Solid';
-  src: url('https://uploads-ssl.webflow.com/6694d16edfb46eb7e97649ad/669535758cd861f91a56fd53_HALDEN%20SOLID.otf') format('opentype');
+  src: url('../FONTS/669535758cd861f91a56fd53_HALDEN%20SOLID.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
