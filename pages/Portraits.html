@@ -295,7 +295,7 @@
 
   // Create audio element for scroll sound
   const scrollSound = new Audio('https://Assets.mixkit.co/active_storage/sfx/2092/2092.wav');
-  scrollSound.volume = 0.1; // Reduce volume
+  scrollSound.volume = 0.1;
 
   let isPlayingSound = false;
   const playScrollSound = () => {
@@ -305,36 +305,36 @@
       scrollSound.play().then(() => {
         setTimeout(() => {
           isPlayingSound = false;
-        }, 200); // Debounce sound
+        }, 200);
       }).catch(console.error);
     }
   };
 
-  // Initialize Lenis for smooth scrolling
+  // Initialize Lenis with updated configuration
   const lenis = new Lenis({
     duration: 1.8,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    direction: 'vertical',
-    gestureDirection: 'vertical',
-    smooth: true,
+    orientation: 'vertical',
+    gestureOrientation: 'vertical',
+    smoothWheel: true,
+    wheelMultiplier: 1,
     smoothTouch: false,
     touchMultiplier: 2
   });
 
-  // Connect Lenis with GSAP
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
 
-  // Scroll sound effect
-  lenis.on('scroll', () => {
-    if (Math.abs(lenis.velocity) > 0.5) { // Only play sound when scrolling fast enough
-      playScrollSound();
-    }
-  });
+  // Start the animation loop
+  requestAnimationFrame(raf);
 
-  // Initialize animations for each gallery item
+  // Connect Lenis to GSAP ScrollTrigger
+  ScrollTrigger.update();
+  ScrollTrigger.defaults({ scroller: document.documentElement });
+
+  // Rest of the animations remain the same
   document.querySelectorAll('.gallery-item').forEach((item, index) => {
     // Set initial states
     gsap.set(item, {
@@ -373,8 +373,6 @@
       }
     });
   });
-
-  requestAnimationFrame(() => lenis.raf(1000 / 60));
   </script>
 </body>
 

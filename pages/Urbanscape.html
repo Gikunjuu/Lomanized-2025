@@ -311,7 +311,7 @@
 
   // Create audio element for scroll sound
   const scrollSound = new Audio('https://Assets.mixkit.co/active_storage/sfx/2092/2092.wav');
-  scrollSound.volume = 0.1; // Reduce volume
+  scrollSound.volume = 0.1;
 
   let isPlayingSound = false;
   const playScrollSound = () => {
@@ -321,31 +321,36 @@
       scrollSound.play().then(() => {
         setTimeout(() => {
           isPlayingSound = false;
-        }, 200); // Debounce sound
+        }, 200);
       }).catch(console.error);
     }
   };
 
-  // Initialize Lenis for smooth scrolling
+  // Initialize Lenis with updated configuration
   const lenis = new Lenis({
     duration: 1.8,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    direction: 'vertical',
-    gestureDirection: 'vertical',
+    orientation: 'vertical',
+    wheelMultiplier: 1,
     smooth: true,
+    smoothWheel: true,
     smoothTouch: false,
     touchMultiplier: 2
   });
 
+  // Proper RAF loop
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
   // Connect Lenis with GSAP
   lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
 
   // Scroll sound effect
-  lenis.on('scroll', () => {
-    if (Math.abs(lenis.velocity) > 0.5) { // Only play sound when scrolling fast enough
+  lenis.on('scroll', ({ velocity }) => {
+    if (Math.abs(velocity) > 0.5) {
       playScrollSound();
     }
   });
@@ -389,8 +394,6 @@
       }
     });
   });
-
-  requestAnimationFrame(() => lenis.raf(1000 / 60));
   </script>
 </body>
 
