@@ -2400,9 +2400,8 @@ textarea.w-input, textarea.w-select {
 .section_footer {
   z-index: 13;
   background-color: var(--fond_black);
-  background-image: linear-gradient(#12100ef0, #12100ef0), url("https://cdn.prod.website-files.com/6694d16edfb46eb7e97649ad/66a2541e4a1d8eb68bb4cdab_Grain.gif");
+  background-image: linear-gradient(#12100ef0, #12100ef0), url("../grain.gif");
   background-position: 0 0, 0 0;
-  height: 60vh;
   position: relative;
 }
 
