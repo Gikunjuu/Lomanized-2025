@@ -303,6 +303,39 @@
   <script>
   gsap.registerPlugin(ScrollTrigger);
 
+  // Initialize Lenis first
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    direction: 'vertical',
+    gestureDirection: 'vertical',
+    smooth: true,
+    smoothTouch: true,
+    touchMultiplier: 1.5,
+    touchInertiaMultiplier: 2.5,
+    wheelMultiplier: 1,
+    lerp: 0.1,
+    normalizeWheel: true
+  });
+
+  // Proper RAF loop for Lenis
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
+  // Connect Lenis to ScrollTrigger
+  lenis.on('scroll', ScrollTrigger.update);
+
+  // Create a function to update scroll animations
+  function updateScroll(time) {
+    lenis.raf(time * 1000);
+  }
+
+  // Connect GSAP ticker to Lenis
+  gsap.ticker.add(updateScroll);
+
   // Create audio element for scroll sound
   const scrollSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2092/2092.wav');
   scrollSound.volume = 0.1; // Reduce volume
@@ -320,35 +353,7 @@
     }
   };
 
-  // Initialize Lenis with updated mobile-friendly settings
-  const lenis = new Lenis({
-    duration: 1.2,  // Reduced from 1.8 for snappier mobile response
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    direction: 'vertical',
-    gestureDirection: 'vertical',
-    smooth: true,
-    smoothTouch: true,  // Enable smooth scrolling on touch devices
-    touchMultiplier: 1.5,  // Reduced from 2 for better control
-    touchInertiaMultiplier: 2.5,  // Add this to improve touch inertia
-    wheelMultiplier: 1,  // Add this to normalize wheel behavior
-    lerp: 0.1,  // Add this for more stable interpolation
-    normalizeWheel: true  // Add this to normalize wheel behavior across devices
-  });
-
-  // Connect Lenis with GSAP
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
-
-  // Scroll sound effect
-  lenis.on('scroll', () => {
-    if (Math.abs(lenis.velocity) > 0.5) { // Only play sound when scrolling fast enough
-      playScrollSound();
-    }
-  });
-
-  // Initialize animations for each gallery item
+  // Rest of your animations...
   const isMobile = window.innerWidth <= 768;
   document.querySelectorAll('.gallery-item').forEach((item, index) => {
     // Set initial states
@@ -388,8 +393,6 @@
       }
     });
   });
-
-  requestAnimationFrame(() => lenis.raf(1000 / 60));
   </script>
 </body>
 
