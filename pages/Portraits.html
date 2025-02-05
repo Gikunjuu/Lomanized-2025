@@ -534,118 +534,133 @@
       </style>
       
       <script>
-      class Carousel {
-        constructor(container) {
-          this.container = container;
-          this.track = container.querySelector('.carousel-track');
-          this.slides = container.querySelectorAll('.carousel-slide');
-          this.dotsContainer = container.querySelector('.carousel-dots');
-          
-          // Create dots
-          this.slides.forEach((_, i) => {
-            const dot = document.createElement('div');
-            dot.className = `carousel-dot${i === 0 ? ' active' : ''}`;
-            dot.addEventListener('click', () => this.goToSlide(i));
-            this.dotsContainer.appendChild(dot);
-          });
-          
-          // Add button listeners
-          container.querySelector('.prev').addEventListener('click', () => this.prevSlide());
-          container.querySelector('.next').addEventListener('click', () => this.nextSlide());
-          
-          // Touch handling
-          this.touchStartX = 0;
-          this.touchEndX = 0;
-          this.currentTranslate = 0;
-          this.prevTranslate = 0;
-          this.currentIndex = 0;
-          
-          this.container.addEventListener('touchstart', e => this.touchStart(e));
-          this.container.addEventListener('touchmove', e => this.touchMove(e));
-          this.container.addEventListener('touchend', () => this.touchEnd());
-          
-          // Mouse handling
-          this.isDragging = false;
-          this.container.addEventListener('mousedown', e => this.touchStart(e));
-          this.container.addEventListener('mousemove', e => this.touchMove(e));
-          this.container.addEventListener('mouseup', () => this.touchEnd());
-          this.container.addEventListener('mouseleave', () => this.touchEnd());
-      
-          // Set initial transform
-          this.setTransform(0);
-        }
-        
-        setTransform(x) {
-          this.currentTranslate = x;
-          this.track.style.transform = `translateX(${x}px)`;
-        }
-        
-        touchStart(event) {
-          this.isDragging = true;
-          this.touchStartX = event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-          this.startPos = this.currentTranslate;
-          this.track.style.transition = 'none';
-        }
-        
-        touchMove(event) {
-          if (!this.isDragging) return;
-          event.preventDefault();
-          const currentPosition = event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-          const diff = currentPosition - this.touchStartX;
-          this.setTransform(this.startPos + diff);
-        }
-        
-        touchEnd() {
-          if (!this.isDragging) return;
-          this.isDragging = false;
-          const movedBy = this.currentTranslate - this.prevTranslate;
-          
-          if (Math.abs(movedBy) > this.container.offsetWidth * 0.2) {
-            if (movedBy < 0) {
-              this.nextSlide();
-            } else {
-              this.prevSlide();
-            }
-          } else {
-            this.goToSlide(this.currentIndex);
-          }
-        }
-        
-        goToSlide(index) {
-          this.currentIndex = index;
-          this.prevTranslate = -index * this.container.offsetWidth;
-          this.track.style.transition = 'transform 0.3s ease-out';
-          this.setTransform(this.prevTranslate);
-          
-          // Update dots
-          this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-            dot.classList.toggle('active', i === index);
-          });
-        }
-        
-        nextSlide() {
-          if (this.currentIndex < this.slides.length - 1) {
-            this.goToSlide(this.currentIndex + 1);
-          } else {
-            this.goToSlide(0);
-          }
-        }
-        
-        prevSlide() {
-          if (this.currentIndex > 0) {
-            this.goToSlide(this.currentIndex - 1);
-          } else {
-            this.goToSlide(this.slides.length - 1);
-          }
-        }
+  class Carousel {
+  constructor(container) {
+    this.container = container;
+    this.track = container.querySelector('.carousel-track');
+    this.slides = container.querySelectorAll('.carousel-slide');
+    this.dotsContainer = container.querySelector('.carousel-dots');
+
+    // Create dots
+    this.slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = `carousel-dot${i === 0 ? ' active' : ''}`;
+      dot.addEventListener('click', () => this.goToSlide(i));
+      this.dotsContainer.appendChild(dot);
+    });
+
+    // Add button listeners
+    container.querySelector('.prev').addEventListener('click', () => this.prevSlide());
+    container.querySelector('.next').addEventListener('click', () => this.nextSlide());
+
+    // Touch handling
+    this.touchStartX = 0;
+    this.touchEndX = 0;
+    this.currentTranslate = 0;
+    this.prevTranslate = 0;
+    this.currentIndex = 0;
+    this.isDragging = false;
+
+    // Add event listeners for touch and mouse
+    this.track.addEventListener('touchstart', e => this.touchStart(e));
+    this.track.addEventListener('touchmove', e => this.touchMove(e));
+    this.track.addEventListener('touchend', () => this.touchEnd());
+
+    this.track.addEventListener('mousedown', e => this.touchStart(e));
+    this.track.addEventListener('mousemove', e => this.touchMove(e));
+    this.track.addEventListener('mouseup', () => this.touchEnd());
+    this.track.addEventListener('mouseleave', () => this.touchEnd());
+
+    // Set initial transform
+    this.setTransform(0);
+  }
+
+  setTransform(x) {
+    this.currentTranslate = x;
+    this.track.style.transform = `translateX(${x}px)`;
+  }
+
+  touchStart(event) {
+    if (event.type === 'touchstart') {
+      this.touchStartX = event.touches[0].clientX;
+    } else if (event.type === 'mousedown') {
+      this.touchStartX = event.clientX;
+    }
+    this.startPos = this.currentTranslate;
+    this.track.style.transition = 'none';
+    this.isDragging = true;
+  }
+
+  touchMove(event) {
+    if (!this.isDragging) return;
+
+    let currentPosition;
+    if (event.type === 'touchmove') {
+      currentPosition = event.touches[0].clientX;
+    } else if (event.type === 'mousemove') {
+      currentPosition = event.clientX;
+    }
+
+    const diff = currentPosition - this.touchStartX;
+    this.setTransform(this.startPos + diff);
+
+    // Prevent default scrolling behavior only if the carousel is being dragged
+    if (Math.abs(diff) > 10) {
+      event.preventDefault();
+    }
+  }
+
+  touchEnd() {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+
+    const movedBy = this.currentTranslate - this.prevTranslate;
+    if (Math.abs(movedBy) > this.container.offsetWidth * 0.2) {
+      if (movedBy < 0) {
+        this.nextSlide();
+      } else {
+        this.prevSlide();
       }
-      
-      // Initialize carousels
-      document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.carousel-container').forEach(container => {
-          new Carousel(container);
-        });
-      });
+    } else {
+      this.goToSlide(this.currentIndex);
+    }
+  }
+
+  goToSlide(index) {
+    this.currentIndex = index;
+    this.prevTranslate = -index * this.container.offsetWidth;
+    this.track.style.transition = 'transform 0.3s ease-out';
+    this.setTransform(this.prevTranslate);
+
+    // Update dots
+    this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === index);
+    });
+  }
+
+  nextSlide() {
+    if (this.currentIndex < this.slides.length - 1) {
+      this.goToSlide(this.currentIndex + 1);
+    } else {
+      this.goToSlide(0);
+    }
+  }
+
+  prevSlide() {
+    if (this.currentIndex > 0) {
+      this.goToSlide(this.currentIndex - 1);
+    } else {
+      this.goToSlide(this.slides.length - 1);
+    }
+  }
+}
+
+// Initialize carousels
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.carousel-container').forEach(container => {
+    new Carousel(container);
+  });
+});
       </script>
 
 
