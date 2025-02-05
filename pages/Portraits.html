@@ -532,164 +532,122 @@
         }
       }
       </style>
- <script>
-class Carousel {
-  constructor(container) {
-    this.container = container;
-    this.track = container.querySelector('.carousel-track');
-    this.slides = container.querySelectorAll('.carousel-slide');
-    this.dotsContainer = container.querySelector('.carousel-dots');
-    
-    // State tracking
-    this.currentIndex = 0;
-    this.startX = 0;
-    this.isDragging = false;
-    this.isScrolling = false;
-
-    // Binding methods
-    this.handleStart = this.handleStart.bind(this);
-    this.handleMove = this.handleMove.bind(this);
-    this.handleEnd = this.handleEnd.bind(this);
-
-    // Create dots
-    this.slides.forEach((_, i) => {
-      const dot = document.createElement('div');
-      dot.className = `carousel-dot${i === 0 ? ' active' : ''}`;
-      dot.addEventListener('click', () => this.goToSlide(i));
-      this.dotsContainer.appendChild(dot);
-    });
-    
-    // Add navigation button listeners
-    container.querySelector('.prev').addEventListener('click', () => this.prevSlide());
-    container.querySelector('.next').addEventListener('click', () => this.nextSlide());
-
-    // Touch and mouse events
-    this.container.addEventListener('mousedown', this.handleStart);
-    this.container.addEventListener('mousemove', this.handleMove);
-    this.container.addEventListener('mouseup', this.handleEnd);
-    this.container.addEventListener('mouseleave', this.handleEnd);
-
-    this.container.addEventListener('touchstart', this.handleStart, { passive: false });
-    this.container.addEventListener('touchmove', this.handleMove, { passive: false });
-    this.container.addEventListener('touchend', this.handleEnd, { passive: false });
-  }
-
-  handleStart(e) {
-    // Normalize event
-    const event = e.type.includes('mouse') ? e : e.touches[0];
-    
-    // Reset states
-    this.startX = event.clientX;
-    this.isDragging = true;
-    this.isScrolling = false;
-
-    // Prepare for dragging
-    this.track.style.transition = 'none';
-    
-    // Prevent default only for touch events
-    if (e.type === 'touchstart') {
-      e.preventDefault();
-    }
-  }
-
-  handleMove(e) {
-    if (!this.isDragging) return;
-
-    // Normalize event
-    const event = e.type.includes('mouse') ? e : e.touches[0];
-    
-    // Calculate movement
-    const currentX = event.clientX;
-    const diffX = currentX - this.startX;
-    const slideWidth = this.container.offsetWidth;
-
-    // Determine if scrolling or dragging
-    if (Math.abs(diffX) > 10) {
-      this.isScrolling = true;
       
-      // Prevent default to stop page scroll
-      if (e.type === 'touchmove') {
-        e.preventDefault();
-      }
-
-      // Move track
-      this.track.style.transform = `translateX(${-this.currentIndex * slideWidth + diffX}px)`;
-    }
-  }
-
-  handleEnd(e) {
-    if (!this.isDragging) return;
-
-    // Normalize event
-    const event = e.type.includes('mouse') ? e : e.changedTouches[0];
-    
-    // Calculate movement
-    const currentX = event.clientX;
-    const diffX = currentX - this.startX;
-    const slideWidth = this.container.offsetWidth;
-
-    // Reset dragging state
-    this.isDragging = false;
-    this.track.style.transition = 'transform 0.3s ease';
-
-    // Determine slide change
-    if (this.isScrolling) {
-      if (Math.abs(diffX) > slideWidth * 0.3) {
-        if (diffX < 0 && this.currentIndex < this.slides.length - 1) {
-          this.nextSlide();
-        } else if (diffX > 0 && this.currentIndex > 0) {
-          this.prevSlide();
-        } else {
-          this.goToSlide(this.currentIndex);
+      <script>
+      class Carousel {
+        constructor(container) {
+          this.container = container;
+          this.track = container.querySelector('.carousel-track');
+          this.slides = container.querySelectorAll('.carousel-slide');
+          this.dotsContainer = container.querySelector('.carousel-dots');
+          
+          // Create dots
+          this.slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = `carousel-dot${i === 0 ? ' active' : ''}`;
+            dot.addEventListener('click', () => this.goToSlide(i));
+            this.dotsContainer.appendChild(dot);
+          });
+          
+          // Add button listeners
+          container.querySelector('.prev').addEventListener('click', () => this.prevSlide());
+          container.querySelector('.next').addEventListener('click', () => this.nextSlide());
+          
+          // Touch handling
+          this.touchStartX = 0;
+          this.touchEndX = 0;
+          this.currentTranslate = 0;
+          this.prevTranslate = 0;
+          this.currentIndex = 0;
+          
+          this.container.addEventListener('touchstart', e => this.touchStart(e));
+          this.container.addEventListener('touchmove', e => this.touchMove(e));
+          this.container.addEventListener('touchend', () => this.touchEnd());
+          
+          // Mouse handling
+          this.isDragging = false;
+          this.container.addEventListener('mousedown', e => this.touchStart(e));
+          this.container.addEventListener('mousemove', e => this.touchMove(e));
+          this.container.addEventListener('mouseup', () => this.touchEnd());
+          this.container.addEventListener('mouseleave', () => this.touchEnd());
+      
+          // Set initial transform
+          this.setTransform(0);
         }
-      } else {
-        this.goToSlide(this.currentIndex);
+        
+        setTransform(x) {
+          this.currentTranslate = x;
+          this.track.style.transform = `translateX(${x}px)`;
+        }
+        
+        touchStart(event) {
+          this.isDragging = true;
+          this.touchStartX = event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+          this.startPos = this.currentTranslate;
+          this.track.style.transition = 'none';
+        }
+        
+        touchMove(event) {
+          if (!this.isDragging) return;
+          event.preventDefault();
+          const currentPosition = event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+          const diff = currentPosition - this.touchStartX;
+          this.setTransform(this.startPos + diff);
+        }
+        
+        touchEnd() {
+          if (!this.isDragging) return;
+          this.isDragging = false;
+          const movedBy = this.currentTranslate - this.prevTranslate;
+          
+          if (Math.abs(movedBy) > this.container.offsetWidth * 0.2) {
+            if (movedBy < 0) {
+              this.nextSlide();
+            } else {
+              this.prevSlide();
+            }
+          } else {
+            this.goToSlide(this.currentIndex);
+          }
+        }
+        
+        goToSlide(index) {
+          this.currentIndex = index;
+          this.prevTranslate = -index * this.container.offsetWidth;
+          this.track.style.transition = 'transform 0.3s ease-out';
+          this.setTransform(this.prevTranslate);
+          
+          // Update dots
+          this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+          });
+        }
+        
+        nextSlide() {
+          if (this.currentIndex < this.slides.length - 1) {
+            this.goToSlide(this.currentIndex + 1);
+          } else {
+            this.goToSlide(0);
+          }
+        }
+        
+        prevSlide() {
+          if (this.currentIndex > 0) {
+            this.goToSlide(this.currentIndex - 1);
+          } else {
+            this.goToSlide(this.slides.length - 1);
+          }
+        }
       }
-    }
+      
+      // Initialize carousels
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.carousel-container').forEach(container => {
+          new Carousel(container);
+        });
+      });
+      </script>
 
-    this.isScrolling = false;
-  }
-
-  goToSlide(index) {
-    this.currentIndex = Math.max(0, Math.min(index, this.slides.length - 1));
-    const slideWidth = this.container.offsetWidth;
-    this.track.style.transform = `translateX(${-this.currentIndex * slideWidth}px)`;
-
-    // Update dots
-    this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-      dot.classList.toggle('active', i === this.currentIndex);
-    });
-  }
-
-  nextSlide() {
-    this.goToSlide(this.currentIndex + 1);
-  }
-
-  prevSlide() {
-    this.goToSlide(this.currentIndex - 1);
-  }
-}
-
-// Initialize carousels
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.carousel-container').forEach(container => {
-    new Carousel(container);
-  });
-});
-</script>
-
-<style>
-.carousel-track {
-  will-change: transform;
-  touch-action: pan-y;
-}
-
-.carousel-slide img {
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-</style>
 
 
 
@@ -836,149 +794,6 @@ document.addEventListener('DOMContentLoaded', () => {
   <script src="../Assets/JS/style.js"
     type="text/javascript"></script>
   <script>
-  class Carousel {
-  constructor(container) {
-    this.container = container;
-    this.track = container.querySelector('.carousel-track');
-    this.slides = container.querySelectorAll('.carousel-slide');
-    this.dotsContainer = container.querySelector('.carousel-dots');
-    
-    // State tracking
-    this.currentIndex = 0;
-    this.startX = 0;
-    this.isDragging = false;
-    this.isScrolling = false;
-
-    // Binding methods
-    this.handleStart = this.handleStart.bind(this);
-    this.handleMove = this.handleMove.bind(this);
-    this.handleEnd = this.handleEnd.bind(this);
-
-    // Create dots
-    this.slides.forEach((_, i) => {
-      const dot = document.createElement('div');
-      dot.className = `carousel-dot${i === 0 ? ' active' : ''}`;
-      dot.addEventListener('click', () => this.goToSlide(i));
-      this.dotsContainer.appendChild(dot);
-    });
-    
-    // Add navigation button listeners
-    container.querySelector('.prev').addEventListener('click', () => this.prevSlide());
-    container.querySelector('.next').addEventListener('click', () => this.nextSlide());
-
-    // Touch and mouse events
-    this.container.addEventListener('mousedown', this.handleStart);
-    this.container.addEventListener('mousemove', this.handleMove);
-    this.container.addEventListener('mouseup', this.handleEnd);
-    this.container.addEventListener('mouseleave', this.handleEnd);
-
-    this.container.addEventListener('touchstart', this.handleStart, { passive: false });
-    this.container.addEventListener('touchmove', this.handleMove, { passive: false });
-    this.container.addEventListener('touchend', this.handleEnd, { passive: false });
-  }
-
-  handleStart(e) {
-    // Normalize event
-    const event = e.type.includes('mouse') ? e : e.touches[0];
-    
-    // Reset states
-    this.startX = event.clientX;
-    this.isDragging = true;
-    this.isScrolling = false;
-
-    // Prepare for dragging
-    this.track.style.transition = 'none';
-    
-    // Prevent default only for touch events
-    if (e.type === 'touchstart') {
-      e.preventDefault();
-    }
-  }
-
-  handleMove(e) {
-    if (!this.isDragging) return;
-
-    // Normalize event
-    const event = e.type.includes('mouse') ? e : e.touches[0];
-    
-    // Calculate movement
-    const currentX = event.clientX;
-    const diffX = currentX - this.startX;
-    const slideWidth = this.container.offsetWidth;
-
-    // Determine if scrolling or dragging
-    if (Math.abs(diffX) > 10) {
-      this.isScrolling = true;
-      
-      // Prevent default to stop page scroll
-      if (e.type === 'touchmove') {
-        e.preventDefault();
-      }
-
-      // Move track
-      this.track.style.transform = `translateX(${-this.currentIndex * slideWidth + diffX}px)`;
-    }
-  }
-
-  handleEnd(e) {
-    if (!this.isDragging) return;
-
-    // Normalize event
-    const event = e.type.includes('mouse') ? e : e.changedTouches[0];
-    
-    // Calculate movement
-    const currentX = event.clientX;
-    const diffX = currentX - this.startX;
-    const slideWidth = this.container.offsetWidth;
-
-    // Reset dragging state
-    this.isDragging = false;
-    this.track.style.transition = 'transform 0.3s ease';
-
-    // Determine slide change
-    if (this.isScrolling) {
-      if (Math.abs(diffX) > slideWidth * 0.3) {
-        if (diffX < 0 && this.currentIndex < this.slides.length - 1) {
-          this.nextSlide();
-        } else if (diffX > 0 && this.currentIndex > 0) {
-          this.prevSlide();
-        } else {
-          this.goToSlide(this.currentIndex);
-        }
-      } else {
-        this.goToSlide(this.currentIndex);
-      }
-    }
-
-    this.isScrolling = false;
-  }
-
-  goToSlide(index) {
-    this.currentIndex = Math.max(0, Math.min(index, this.slides.length - 1));
-    const slideWidth = this.container.offsetWidth;
-    this.track.style.transform = `translateX(${-this.currentIndex * slideWidth}px)`;
-
-    // Update dots
-    this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-      dot.classList.toggle('active', i === this.currentIndex);
-    });
-  }
-
-  nextSlide() {
-    this.goToSlide(this.currentIndex + 1);
-  }
-
-  prevSlide() {
-    this.goToSlide(this.currentIndex - 1);
-  }
-}
-
-// Initialize carousels
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.carousel-container').forEach(container => {
-    new Carousel(container);
-  });
-});
   gsap.registerPlugin(ScrollTrigger);
 
   // Create audio element for scroll sound
