@@ -540,13 +540,23 @@ document.addEventListener('DOMContentLoaded', () => {
   flex-direction: column;
   gap: 8rem;
   padding: 0 2rem;
-  width: 75%;
+  width: 65%;
   height: 100%;
   max-width: calc(125vh * 1/1);
   margin: 0 auto;
   position: relative;
 }
 
+/* For tablets */
+@media (max-width: 1024px) {
+  .gallery-container {
+    width: 100%;
+    padding: 0 1.5rem;
+    gap: 7rem;
+  }
+}
+
+/* For mobile phones */
 @media (max-width: 768px) {
   .gallery-container {
     width: 100%;
