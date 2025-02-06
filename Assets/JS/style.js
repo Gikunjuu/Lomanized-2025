@@ -12187,7 +12187,7 @@ Webflow.require('ix2').init({
                       "config": {
                           "delay": 0,
                           "easing": "",
-                          "duration": 100,
+                          "duration": 50,
                           "target": {
                               "useEventTarget": "CHILDREN",
                               "selector": ".photo_eric",
@@ -12227,7 +12227,7 @@ Webflow.require('ix2').init({
                       "config": {
                           "delay": 0,
                           "easing": "",
-                          "duration": 100,
+                          "duration": 50,
                           "target": {
                               "useEventTarget": "CHILDREN",
                               "selector": ".photo_eric",
@@ -12245,7 +12245,7 @@ Webflow.require('ix2').init({
                       "config": {
                           "delay": 0,
                           "easing": "",
-                          "duration": 100,
+                          "duration": 50,
                           "target": {
                               "useEventTarget": "CHILDREN",
                               "selector": ".photo_eric",
@@ -12484,7 +12484,7 @@ Webflow.require('ix2').init({
                       }
                   }]
               }, {
-                  "keyframe": 85,
+                  "keyframe": 55,
                   "actionItems": [{
                       "id": "a-11-n-22",
                       "actionTypeId": "TRANSFORM_MOVE",
