@@ -2957,7 +2957,7 @@ textarea.w-input, textarea.w-select {
 
 .s_hero {
   width: 100vw;
-  height: 700vh;
+  height: 400vh;
   position: static;
   overflow: visible;
 }
@@ -2965,7 +2965,7 @@ textarea.w-input, textarea.w-select {
 .s_hero_wapper {
   z-index: 1;
   width: 100vw;
-  height: 700vh;
+  height: 400vh;
   display: block;
   position: relative;
   top: auto;

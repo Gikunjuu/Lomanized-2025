@@ -12171,7 +12171,7 @@ Webflow.require('ix2').init({
                       "config": {
                           "delay": 0,
                           "easing": "",
-                          "duration": 100,
+                          "duration": 50,
                           "target": {
                               "useEventTarget": "CHILDREN",
                               "selector": ".photo_eric",
