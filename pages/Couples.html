@@ -235,14 +235,12 @@
       }
       
       .carousel-slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        background: #111;
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensures the entire image fits within the container */
+  display: block;
+  background: #111; /* Optional: Adds a background color to fill any empty space */
+}
       
       .carousel-button {
         position: absolute;
@@ -466,17 +464,25 @@ document.addEventListener('DOMContentLoaded', () => {
       background: #111;
       position: relative;
     }
-  
     .gallery-container {
-      display: flex;
-      flex-direction: column;
-      gap: 8rem;
-      padding: 0 2rem;
-      width: 100%;
-      max-width: calc(125vh * 1/1); 
-      margin: 0 auto;
-      position: relative;
-    }
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  padding: 0 2rem;
+  width: 65%;
+  height: 100%;
+  max-width: calc(125vh * 1/1);
+  margin: 0 auto;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .gallery-container {
+    width: 100%;
+    padding: 0 1rem;
+    gap: 6rem;
+  }
+}
   
     .gallery-item {
       width: 100%;
@@ -485,17 +491,19 @@ document.addEventListener('DOMContentLoaded', () => {
       will-change: transform, opacity;
       height: 75vh; /* Fixed height at 75% of viewport */
     }
-  
     .image-wrapper {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      border-radius: 12px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      overflow: hidden;
-      background: #fff;
-      transform: translateZ(0);
-    }
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  background: #111; /* Background color for empty space */
+  transform: translateZ(0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
   
     .image-wrapper img {
       position: absolute;
