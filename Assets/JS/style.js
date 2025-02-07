@@ -12174,7 +12174,7 @@ Webflow.require('ix2').init({
                           "duration": 50,
                           "target": {
                               "useEventTarget": "CHILDREN",
-                              "selector": ".photo_eric",
+                              "selector": ".photo_lomanized",
                               "selectorGuids": ["ab8280a3-54e1-3843-8562-46149e635255"]
                           },
                           "xValue": 1.5,
@@ -12190,7 +12190,7 @@ Webflow.require('ix2').init({
                           "duration": 50,
                           "target": {
                               "useEventTarget": "CHILDREN",
-                              "selector": ".photo_eric",
+                              "selector": ".photo_lomanized",
                               "selectorGuids": ["ab8280a3-54e1-3843-8562-46149e635255"]
                           },
                           "xValue": 5,
@@ -12230,7 +12230,7 @@ Webflow.require('ix2').init({
                           "duration": 50,
                           "target": {
                               "useEventTarget": "CHILDREN",
-                              "selector": ".photo_eric",
+                              "selector": ".photo_lomanized",
                               "selectorGuids": ["ab8280a3-54e1-3843-8562-46149e635255"]
                           },
                           "xValue": 0,
@@ -12248,7 +12248,7 @@ Webflow.require('ix2').init({
                           "duration": 50,
                           "target": {
                               "useEventTarget": "CHILDREN",
-                              "selector": ".photo_eric",
+                              "selector": ".photo_lomanized",
                               "selectorGuids": ["ab8280a3-54e1-3843-8562-46149e635255"]
                           },
                           "xValue": 1,
@@ -12494,7 +12494,7 @@ Webflow.require('ix2').init({
                           "duration": 100,
                           "target": {
                               "useEventTarget": "CHILDREN",
-                              "selector": ".photo_eric",
+                              "selector": ".photo_lomanized",
                               "selectorGuids": ["ab8280a3-54e1-3843-8562-46149e635255"]
                           },
                           "xValue": 0,
@@ -12512,7 +12512,7 @@ Webflow.require('ix2').init({
                           "duration": 100,
                           "target": {
                               "useEventTarget": "CHILDREN",
-                              "selector": ".photo_eric",
+                              "selector": ".photo_lomanized",
                               "selectorGuids": ["ab8280a3-54e1-3843-8562-46149e635255"]
                           },
                           "xValue": 1,
@@ -12568,7 +12568,7 @@ Webflow.require('ix2').init({
                           "duration": 100,
                           "target": {
                               "useEventTarget": "CHILDREN",
-                              "selector": ".photo_eric",
+                              "selector": ".photo_lomanized",
                               "selectorGuids": ["ab8280a3-54e1-3843-8562-46149e635255"]
                           },
                           "xValue": 1.5,
@@ -12584,7 +12584,7 @@ Webflow.require('ix2').init({
                           "duration": 100,
                           "target": {
                               "useEventTarget": "CHILDREN",
-                              "selector": ".photo_eric",
+                              "selector": ".photo_lomanized",
                               "selectorGuids": ["ab8280a3-54e1-3843-8562-46149e635255"]
                           },
                           "xValue": -22,

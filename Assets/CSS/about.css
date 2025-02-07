@@ -2288,7 +2288,7 @@ html {
     top: 0;
   }
   
-  .wapper_content.btn_about-eric {
+  .wapper_content.btn_about-lomanized {
     background-color: #12100e00;
     flex-flow: column;
     justify-content: center;
@@ -2992,7 +2992,7 @@ html {
     overflow: visible;
   }
   
-  .svg_eric {
+  .svg_lomanized {
     z-index: 11;
     color: var(--red);
     text-align: center;
@@ -3017,7 +3017,7 @@ html {
     overflow: visible;
   }
   
-  .photo_eric {
+  .photo_lomanized {
     z-index: 10;
     object-fit: cover;
     width: 100vw;
@@ -3077,7 +3077,7 @@ html {
     position: relative;
   }
   
-  .photo_eric_vide {
+  .photo_loma {
     z-index: 10;
     width: 100vw;
     height: 100vh;
@@ -3087,15 +3087,15 @@ html {
     overflow: hidden;
   }
   
-  .photo_eric_vide._200vh {
+  .photo_loma._200vh {
     height: 200vh;
   }
   
-  .photo_eric_vide._50vh {
+  .photo_loma._50vh {
     height: 25vh;
   }
   
-  .photo_eric_vide._275vh {
+  .photo_loma._275vh {
     height: 225vh;
   }
   
@@ -3110,7 +3110,7 @@ html {
     overflow: visible;
   }
   
-  .text_eric {
+  .text_lomanized {
     z-index: 10;
     object-fit: cover;
     width: auto;
@@ -3518,7 +3518,7 @@ html {
     line-height: 1.4;
   }
   
-  .work_photo-eric {
+  .work_photo-lomanized {
     width: 100%;
     height: auto;
     padding-top: 4vh;
@@ -3589,7 +3589,7 @@ html {
     display: block;
   }
   
-  .btn_about_eric {
+  .btn_about_lomanized {
     background-color: var(--red_dark);
     color: var(--fond_black);
     text-align: center;
@@ -3607,7 +3607,7 @@ html {
     display: inline-flex;
   }
   
-  .btn_about_eric:hover {
+  .btn_about_lomanized:hover {
     background-color: var(--yellow);
   }
   
@@ -3771,7 +3771,7 @@ html {
     top: 0;
   }
   
-  .div_text_eric {
+  .div_text_lomanized {
     z-index: 10;
     width: 100vw;
     height: 100vh;
@@ -3935,7 +3935,7 @@ html {
       overflow: visible;
     }
   
-    .text_eric {
+    .text_lomanized {
       align-self: center;
       height: 80vh;
     }
@@ -4002,7 +4002,7 @@ html {
       font-size: 1.25rem;
     }
   
-    .btn_about_eric {
+    .btn_about_lomanized {
       font-size: 4vw;
     }
   
@@ -4113,7 +4113,7 @@ html {
       display: inline-flex;
     }
   
-    .div_text_eric {
+    .div_text_lomanized {
       justify-content: center;
       align-items: center;
       display: flex;
@@ -4282,7 +4282,7 @@ html {
       font-size: .8rem;
     }
   
-    .btn_about_eric {
+    .btn_about_lomanized {
       font-size: 3vw;
     }
   
@@ -4446,7 +4446,7 @@ html {
       height: 46vh;
     }
   
-    .text_eric {
+    .text_lomanized {
       height: 52vh;
     }
   
@@ -4520,7 +4520,7 @@ html {
       width: 65%;
     }
   
-    .btn_about_eric {
+    .btn_about_lomanized {
       font-size: 6vw;
     }
   
