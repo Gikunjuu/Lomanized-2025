@@ -11007,7 +11007,7 @@ Webflow.require('ix2').init({
                           "duration": 50,
                           "target": {
                               "useEventTarget": "CHILDREN",
-                              "selector": ".img_hero.z-6.titre-hero",
+                              "selector": ".img_hero.z-6.title-hero",
                               "selectorGuids": ["326ddda2-afc5-7e4f-f606-e8620ea9eb64", "e4befce2-73c2-fd8c-e50c-cb0f0a6fdef9", "b3ff84f7-5a95-90e7-55de-013ff54e24b6"]
                           },
                           "yValue": 100,
@@ -11115,7 +11115,7 @@ Webflow.require('ix2').init({
                           "duration": 50,
                           "target": {
                               "useEventTarget": "CHILDREN",
-                              "selector": ".img_hero.z-6.titre-hero",
+                              "selector": ".img_hero.z-6.title-hero",
                               "selectorGuids": ["326ddda2-afc5-7e4f-f606-e8620ea9eb64", "e4befce2-73c2-fd8c-e50c-cb0f0a6fdef9", "b3ff84f7-5a95-90e7-55de-013ff54e24b6"]
                           },
                           "yValue": 0,
