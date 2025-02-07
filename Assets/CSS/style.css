@@ -2957,7 +2957,7 @@ textarea.w-input, textarea.w-select {
 
 .s_hero {
   width: 100vw;
-  height: 400vh;
+  height: 700vh;
   position: static;
   overflow: visible;
 }
@@ -2965,7 +2965,7 @@ textarea.w-input, textarea.w-select {
 .s_hero_wapper {
   z-index: 1;
   width: 100vw;
-  height: 400vh;
+  height: 200vh;
   display: block;
   position: relative;
   top: auto;
@@ -3020,22 +3020,19 @@ textarea.w-input, textarea.w-select {
   z-index: 10;
   object-fit: cover;
   width: 100vw;
-  height: 100vh;
+  height: 50;
   display: block;
   position: fixed;
   inset: 0 auto auto;
   overflow: visible;
 }
 
-.photo_papa {
-  z-index: 3;
-  object-fit: cover;
-  width: 100vw;
-  height: 100vh;
-  display: block;
-  position: sticky;
-  inset: 0 auto auto;
-  overflow: visible;
+@media (max-width: 768px) {
+  .photo_eric {
+    width: 120%; /* Slightly wider than the screen on mobile */
+    max-width: none; /* Remove max-width constraint on mobile */
+    margin-left: -10%; /* Offset to make it wider */
+  }
 }
 
 .photo_ombre {
